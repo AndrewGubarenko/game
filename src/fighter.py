@@ -9,7 +9,7 @@ class Fighter:
         self.screen = ai_game.screen
         self.screen_rect = ai_game.screen.get_rect()
 
-        self.image = pygame.image.load('static/images/stealth.bmp')
+        self.image = pygame.image.load(self.settings.fighter_image_ref)
         self.image = pygame.transform.smoothscale(self.image,
                                                   (self.settings.fighter_width, self.settings.fighter_height))
         self.rect = self.image.get_rect()

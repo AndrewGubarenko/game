@@ -5,6 +5,7 @@ import pygame
 from settings import Settings
 from fighter import Fighter
 from bullet import Bullet
+from alien import Alien
 
 
 class AlienInvasion:
@@ -30,6 +31,9 @@ class AlienInvasion:
         self.fighter = Fighter(self)
 
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         while True:
@@ -68,6 +72,7 @@ class AlienInvasion:
         self.fighter.blit_me()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
         pygame.display.flip()
 
     def _fire_bullet(self):
@@ -80,6 +85,19 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _create_fleet(self):
+        for row_number in range(self.settings.aliens_row_quantity):
+            for alien_number in range(self.settings.aliens_in_row_quantity):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
+        alien = Alien(self)
+        alien.x = self.settings.alien_width + 2 * self.settings.alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = self.settings.alien_height + 2 * self.settings.alien_height * row_number
+        self.aliens.add(alien)
+
 
 if __name__ == '__main__':
     ai = AlienInvasion()
